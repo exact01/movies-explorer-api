@@ -11,7 +11,6 @@ const { processingErrors } = require('./middlewares/errors');
 const { createUser, login } = require('./controllers/users');
 const { isAuthorized } = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
-const { validateUrl } = require('./utils/customValidator');
 require('dotenv').config();
 
 const { PORT = 3001, NODE_ENV } = process.env;
@@ -38,7 +37,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
 

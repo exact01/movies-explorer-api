@@ -1,6 +1,5 @@
 const { errors, celebrate, Joi } = require('celebrate');
 const router = require('express').Router();
-// const { validateUrl } = require('../utils/customValidator');
 
 const {
   getUserMe, pathUserMe,
