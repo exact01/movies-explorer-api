@@ -15,7 +15,7 @@ const { validateUrl } = require('./utils/customValidator');
 require('dotenv').config();
 
 const { PORT = 3001, NODE_ENV } = process.env;
-const origin = NODE_ENV === 'production' ? ['http://cohort37.nomoredomains.xyz', 'https://cohort37.nomoredomains.xyz'] : 'http://localhost:3000';
+const origin = NODE_ENV === 'production' ? ['http://diploma37.nomoreparties.sbs', 'https://diploma37.nomoreparties.sbs'] : 'http://localhost:3000';
 
 const app = express();
 app.use(helmet());
@@ -27,12 +27,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(requestLogger);
-
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
