@@ -1,12 +1,13 @@
 const { errors, celebrate, Joi } = require('celebrate');
 const router = require('express').Router();
 const { validateUrl } = require('../utils/customValidator');
+const { isAuthorized } = require('../middlewares/auth');
 
 const {
   createMovie, getMovie, deletMovie,
 } = require('../controllers/movie');
 
-router.post('/', celebrate({
+router.post('/movies/', isAuthorized, celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required().min(2),
@@ -22,14 +23,14 @@ router.post('/', celebrate({
   }),
 }), createMovie);
 
-router.get('/', getMovie);
+router.get('/movies/', isAuthorized, getMovie);
 
-router.delete('/:movieId', celebrate({
+router.delete('/movies/:movieId', isAuthorized, celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24),
   }),
 }), deletMovie);
 
-router.use(errors());
+router.use(isAuthorized, errors());
 
 module.exports.movieRouter = router;
