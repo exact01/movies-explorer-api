@@ -63,13 +63,7 @@ function getUserMe(req, res, next) {
   User.findById(userId)
     .orFail(() => new NotFoundError('Юзер с указанным id не существует'))
     .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new ValidationError('Невалидный id '));
-        return;
-      }
-      next(err);
-    });
+    .catch(next);
 }
 
 function pathUserMe(req, res, next) {

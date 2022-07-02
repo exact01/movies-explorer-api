@@ -73,7 +73,13 @@ function deletMovie(req, res, next) {
       }
       throw new Forbidden('Доступ запрещен!');
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new ValidationError('Невалидный id'));
+        return;
+      }
+      next(err);
+    });
 }
 
 module.exports = {
