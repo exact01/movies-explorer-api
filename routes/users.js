@@ -10,7 +10,7 @@ router.get('/me', getUserMe);
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    email: Joi.string().email({ tlds: { allow: false } }),
+    email: Joi.string().email({ tlds: { allow: false } }).required(),
   }),
 }), pathUserMe);
 
