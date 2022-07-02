@@ -42,7 +42,7 @@ app.post('/signup', celebrate({
 }), createUser);
 
 app.use('/users', isAuthorized, userRouter);
-app.use('/movie', isAuthorized, movieRouter);
+app.use('/movies', isAuthorized, movieRouter);
 
 app.use(isAuthorized, (_req, _res, next) => next(new NotFoundError('Страница не найдена')));
 
@@ -52,6 +52,4 @@ app.use(errors());
 
 app.use(processingErrors);
 
-app.listen(PORT, () => {
-  console.log('Server has been started');
-});
+app.listen(PORT);

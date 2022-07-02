@@ -1,10 +1,9 @@
 const { errors, celebrate, Joi } = require('celebrate');
-const JoiDate = require('joi').extend(require('@joi/date'));
 const router = require('express').Router();
 const { validateUrl } = require('../utils/customValidator');
 
 const {
-  createMovie, getMovie, deletMovie, likeCard, dislikeCard,
+  createMovie, getMovie, deletMovie,
 } = require('../controllers/movie');
 
 router.post('/', celebrate({
@@ -17,7 +16,6 @@ router.post('/', celebrate({
     image: Joi.string().required().custom(validateUrl, 'custom validate url'),
     trailerLink: Joi.string().required().custom(validateUrl, 'custom validate url'),
     thumbnail: Joi.string().required().custom(validateUrl, 'custom validate url'),
-    owner: Joi.string().required().length(24),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
