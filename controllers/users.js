@@ -27,7 +27,7 @@ function login(req, res, next) {
         throw new AuthError('Емейл или пароль неверный');
       }
       const jwToken = generateToken(user._id);
-      return res.status(200).send({ token: jwToken });
+      return res.send({ token: jwToken });
     })
     .catch(next);
 }
@@ -44,7 +44,7 @@ function createUser(req, res, next) {
       User.create({
         email, password: hash, name,
       })
-        .then((user) => res.status(200).send({
+        .then((user) => res.send({
           name: user.name, email: user.email, _id: user._id,
         }))
         .catch((err) => {
@@ -62,7 +62,7 @@ function getUserMe(req, res, next) {
 
   User.findById(userId)
     .orFail(() => new NotFoundError('Юзер с указанным id не существует'))
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Невалидный id '));
@@ -76,7 +76,7 @@ function pathUserMe(req, res, next) {
   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь с указанным id не существует'))
     .then((user) => {
-      res.status(200).send({ newObject: user });
+      res.send({ newObject: user });
     })
     .catch((err) => {
       if (err.code === MONGO_DUPLICATE_KEY_CODE) {

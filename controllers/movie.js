@@ -37,7 +37,7 @@ function createMovie(req, res, next) {
     owner,
   })
     .then((movie) => {
-      res.status(200).send(movie);
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -52,7 +52,7 @@ function createMovie(req, res, next) {
 function getMovie(_req, res, next) {
   Movie.find()
     .then((cards) => {
-      res.status(200).send(cards.reverse());
+      res.send(cards.reverse());
     })
     .catch(next);
 }
@@ -67,19 +67,13 @@ function deletMovie(req, res, next) {
     .then((movieList) => {
       if (movieList.owner.equals(userId)) {
         Movie.findByIdAndRemove(movieId)
-          .then(() => res.status(200).send({ message: 'Фильм удалена успешно' }))
+          .then(() => res.send({ message: 'Фильм удалена успешно' }))
           .catch(next);
         return;
       }
       throw new Forbidden('Доступ запрещен!');
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new ValidationError('Невалидный id'));
-        return;
-      }
-      next(err);
-    });
+    .catch(next);
 }
 
 module.exports = {
